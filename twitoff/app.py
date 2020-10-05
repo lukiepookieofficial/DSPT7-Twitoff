@@ -6,7 +6,7 @@ from .twitter import add_user_tweepy
 def create_app():
     '''Create and configure an instance of our Flask application'''
     app = Flask(__name__)
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///C:\\Users\\bruno\\Desktop\\DSPT7-Twitoff\\twitoff.sqlite3'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///C:\\Users\\Luke Melto\\Documents\\GitHub\\DSPT7-Twitoff\\twitoff\\twitoff.sqlite3'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     DB.init_app(app)  # Connect Flask app to SQLAlchemy DB
 
