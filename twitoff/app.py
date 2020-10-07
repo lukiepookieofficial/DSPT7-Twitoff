@@ -28,7 +28,7 @@ def create_app():
         except Exception as e:
             print(f'Error adding {name}: {e}')
             tweets = []
-            
+
         return render_template('user.html', title=name, tweets=tweets, message=message)
 
     return app
@@ -50,9 +50,11 @@ def compare(message=''):
 
     return render_template('predict.html', title='Prediction', message=message)
 
+
 @app.route('/reset')
 def reset():
     DB.drop_all()
     DB.create_all()
+
 
 return app

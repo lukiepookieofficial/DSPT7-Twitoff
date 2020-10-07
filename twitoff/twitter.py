@@ -7,9 +7,9 @@ from .db_model import DB, User, Tweet
 load_dotenv()
 
 # Set Twitter Authentication models
-TWITTER_AUTH = tweepy.OAuthHandler(getenv('TWITTER_CONSUMER_API_KEY'), 
+TWITTER_AUTH = tweepy.OAuthHandler(getenv('TWITTER_CONSUMER_API_KEY'),
                                    getenv('TWITTER_CONSUMER_API_SECRET'))
-TWITTER_AUTH.set_access_token(getenv('TWITTER_ACCESS_TOKEN'), 
+TWITTER_AUTH.set_access_token(getenv('TWITTER_ACCESS_TOKEN'),
                               getenv('TWITTER_ACCESS_TOKEN_SECRET'))
 TWITTER = tweepy.API(TWITTER_AUTH)
 
@@ -20,6 +20,7 @@ nlp = spacy.load('en_core_web_md', disable=['tagger', 'parser'])
 def vectorize_tweet(nlp, tweet_text):
     '''This function returns the SpaCy embeddings for an input text'''
     return nlp(tweet_text).vector
+
 
 def add_user_tweepy(username):
     '''Add a user and their tweets to database'''
@@ -44,7 +45,7 @@ def add_user_tweepy(username):
         # Add newest_tweet_id to the User table
         if tweets:
             db_user.newest_tweet_id = tweets[0].id
-    
+
         # Loop over tweets, get embedding and add to Tweet table
         for tweet in tweets:
 
@@ -66,6 +67,7 @@ def add_user_tweepy(username):
         # If no errors happend than commit the records
         DB.session.commit()
 
+
 def add_user_history(username):
     '''Add max tweet history (API limit of 3200) to database'''
     try:
@@ -80,9 +82,9 @@ def add_user_history(username):
         DB.session.add(db_user)
 
         # Get tweets ignoring re-tweets and replies
-        tweets = twitter_user.timeline(count=200, 
-                                       exclude_replies=True, 
-                                       include_rts=False, 
+        tweets = twitter_user.timeline(count=200,
+                                       exclude_replies=True,
+                                       include_rts=False,
                                        tweet_mode='extended')
         oldest_max_id = tweets[-1].id - 1
         tweet_history = []
@@ -95,16 +97,16 @@ def add_user_history(username):
         # Continue to collect tweets using max_id and update until 3200 tweet max
         while True:
             tweets = twitter_user.timeline(count=200,
-                                        exclude_replies=True,
-                                        include_rts=False,
-                                        tweet_mode='extended',
-                                        max_id=oldest_max_id)
+                                           exclude_replies=True,
+                                           include_rts=False,
+                                           tweet_mode='extended',
+                                           max_id=oldest_max_id)
             if len(tweets) == 0:
                 break
 
             oldest_max_id = tweets[-1].id - 1
-            tweet_history += tweets 
-    
+            tweet_history += tweets
+
         print(f'Total Tweets collected for {username}: {len(tweet_history)}')
 
         # Loop over tweets, get embedding and add to Tweet table
