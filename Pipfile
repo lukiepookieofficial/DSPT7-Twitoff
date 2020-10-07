@@ -7,6 +7,9 @@ verify_ssl = true
 jupyter = "*"
 pylint = "*"
 pylint-flask = "*"
+pycodestyle = "*"
+toml = "*"
+autopep8 = "*"
 
 [packages]
 flask = "*"
