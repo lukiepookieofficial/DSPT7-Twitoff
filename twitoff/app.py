@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request
 from .db_model import DB, User
-from .twitter import add_user_tweepy, update_all_users
+from .twitter import add_user_tweepy, update_all_users, add_user_history
 from .predict import predict_user
 
 
@@ -30,9 +30,6 @@ def create_app():
             tweets = []
 
         return render_template('user.html', title=name, tweets=tweets, message=message)
-
-    return app
-
 
     @app.route('/compare', methods=['POST'])
     def compare(message=''):
