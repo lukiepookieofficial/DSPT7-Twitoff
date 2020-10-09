@@ -25,10 +25,10 @@ def predict_user(user1, user2, tweet_text):
     # combine embeddings and create labels
     embeddings = np.vstack([user1_embeds, user2_embeds])
     labels = np.concatenate([np.ones(len(user1_embeds)),
-                             np.zeroes(len(user2_embeds))])
+                             np.zeros(len(user2_embeds))])
 
     # train model and convert input text into embeddings
-    log_reg = LogisticRegression(max_iter=1000).fir(embeddings, labels)
+    log_reg = LogisticRegression(max_iter=1000).fit(embeddings, labels)
     tweet_embedding = vectorize_tweet(nlp, tweet_text)
 
     return log_reg.predict([tweet_embedding])[0]
