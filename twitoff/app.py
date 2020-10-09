@@ -58,4 +58,11 @@ def create_app():
         update_all_users()
         return render_template('base.html', title='All Tweets Updated!', users=User.query.all())
 
+    @app.route('/max_history')
+    def max_history():
+        users=User.query.all()
+        for user in users:
+            add_user_history(str(user))
+        return render_template('base.html', title='All Users Max History Downloaded!', users=User.query.all())
+
     return app
